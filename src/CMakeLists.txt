@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 project(MBROLA)
 
-set(MBROLA_FLAGS -DBIG_ENDIAN -DROMDATABASE_PURE -DDEBUG)
+add_definitions(-DBIG_ENDIAN -DDEBUG -DSIGNAL)
 
 add_executable(mbrola
         synth.c
@@ -28,7 +28,4 @@ add_executable(mbrola
 
 # including the stdlibs
 target_link_libraries(mbrola m)
-
-#setting up compile flags
-set_target_properties(mbrola PROPERTIES COMPILE_FLAGS ${MBROLA_FLAGS})
 
