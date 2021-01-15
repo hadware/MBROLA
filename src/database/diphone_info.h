@@ -32,7 +32,7 @@
 #ifndef DIPHONE_INFO_H
 #define DIPHONE_INFO_H
 
-#include "../misc/common.h"
+#include "../misc/j'taicommon.h"
 
 /*
  * Structure of the diphone database (as stored in memory)

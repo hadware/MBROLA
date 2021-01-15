@@ -33,10 +33,6 @@
 #include "../misc/mbralloc.h"
 #include "../misc/vp_error.h"
 
-#if defined(ROMDATABASE_STORE) || defined(ROMDATABASE_INIT)
-#include "rom_handling.h"
-#endif
-
 
 ZStringList* init_ZStringList()
 /* Basic constructor, initialize to empty list */
@@ -200,56 +196,4 @@ PhonemeName find_rename_ZStringList(ZStringList* zl, PhonemeName name)
     }
 	return NULL;
 }
-
-#ifdef ROMDATABASE_STORE
-/***************************
- * Relevant to ROM Databases 
- ***************************/
-
-void file_flush_ROM_ZStringList(ZStringList* zl, FILE* rom_file)
-/* Dump the hash table in a ROM image */
-{
-	int i;
-
-	file_flush_ROM_align16(rom_file);
-	file_flush_ROM_int16( nb_elem(zl), rom_file);
-	for(i=0; i< nb_elem(zl); i++)
-		file_flush_ROM_Zstring( zlist(zl)[i],rom_file);
-}
-#endif
-
-#ifdef ROMDATABASE_INIT
-
-ZStringList* init_ROM_ZStringList(void** input_ptr)
-/*
- * Initialize the hash table from a ROM image
- */
-{
-	int i;
-	ZStringList* my_zl= (ZStringList*) MBR_malloc(sizeof(ZStringList));
-  
-	ptr_ROM_align16(*input_ptr);
-	*input_ptr= read_ROM_int16( (int16*) &nb_elem(my_zl), *input_ptr);
-	nb_available(my_zl)=nb_elem(my_zl);
-  
-	/* Allocate directly the right size */
-	zlist(my_zl)= (PhonemeName *) MBR_malloc( sizeof(PhonemeName) * 
-											  nb_available(my_zl));
-	for(i=0; i< nb_elem(my_zl); i++)
-    {
-		*input_ptr= read_ROM_Zstring( &zlist(my_zl)[i], *input_ptr);
-    }
-	return my_zl;
-}
-
-void close_ROM_ZStringList(ZStringList* zl)
-/*
- * Close the ROM image (fewer mallocs than in the regular one) 
- */
-{
-	MBR_free( zlist(zl) );
-	MBR_free( zl );
-}
-
-#endif
 

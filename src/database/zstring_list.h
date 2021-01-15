@@ -91,21 +91,3 @@ bool parse_ZStringList(ZStringList* my_zl, PhonemeName rename_string, bool multi
 PhonemeName find_rename_ZStringList(ZStringList* zl, PhonemeName str);
 /* finds the translation of 'str'. returns PHONEME_FAIL if not found */
 
-#ifdef ROMDATABASE_STORE
-void file_flush_ROM_ZStringList(ZStringList* zl, FILE* rom_file);
-/* Dump the hash table in a ROM image */
-#endif
-
-#ifdef ROMDATABASE_INIT
-ZStringList* init_ROM_ZStringList(void** input_ptr);
-/*
- * Initialize the hash table from a ROM image
- */
-
-void close_ROM_ZStringList(ZStringList* zl);
-/*
- * Close the ROM image (fewer mallocs than in the regular one) 
- */
-#endif
-
-#endif

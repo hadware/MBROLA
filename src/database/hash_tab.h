@@ -138,21 +138,4 @@ void tuning_HashTab(HashTab *hash_tab);
 /* Function for debug and tuning purpose  */
 #endif
 
-#ifdef ROMDATABASE_STORE
-void file_flush_ROM_HashTab( HashTab* tab,  FILE* rom_file);
-/* Dump the hash table in a ROM image */
-#endif
-
-#ifdef ROMDATABASE_INIT
-HashTab* init_ROM_HashTab(void** input_ptr);
-/*
- * Initialize the hash table from a ROM image
- */
-
-void close_ROM_HashTab(HashTab *hash_tab);
-/*
- * Close the ROM image (fewer malloc that in regular one)
- */
-#endif
-
 #endif
